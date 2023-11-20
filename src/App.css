@@ -28,3 +28,12 @@
 button, input {
   font-family:Futura;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0; /* Optional: remove default padding */
+}
+
+li {
+  cursor: pointer; /* Add this line to set the cursor to pointer on hover */
+}

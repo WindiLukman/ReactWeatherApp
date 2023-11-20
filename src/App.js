@@ -9,6 +9,7 @@ import useCityStorage from "./hooks/useCityStorage";
 function App() {
     const [cityInput, setCityInput] = useState("");
     const { getStorage, setStorage } = useCityStorage();
+    const [recentCities, setRecentCities] = useState([]);
     const { data: weatherData, getWeather } = useGetWeather();
 
     // Listens on changes in cityInput and then performs the function as intended
@@ -32,7 +33,20 @@ function App() {
     const onSubmitButtonClicked = () => {
         getWeather(cityInput);
         setStorage(cityInput);
+        setRecentCities(getStorage()); // Update recentCities after adding a new city
     };
+
+
+    const onClearButtonClick = () => {
+        setStorage(null);
+        setRecentCities([]); // Update recentCities after clearing localStorage
+    };
+
+    const onCityItemClick = (city) => {
+        setCityInput(city);
+        getWeather(city);
+    };
+
 
     useEffect(() => {
         //console.log(weatherData);
@@ -119,6 +133,19 @@ function App() {
                     </tr>
                 </table>
             </div>
+
+            <div>
+                <h2>Recent Cities Searched</h2>
+                <ul>
+                    {recentCities.map((city, index) => (
+                        <li key={index} onClick={() => onCityItemClick(city)}>
+                            {city}
+                        </li>
+                    ))}
+                </ul>
+                <Button onClick={onClearButtonClick}>Clear</Button>
+            </div>
+
         </div>
     );
 }
