@@ -1,5 +1,4 @@
-import { useCallback, useContext, useState } from "react";
-import { GlobalContext } from "../context/globalContext";
+import { useCallback } from "react";
 import { CITIES_KEY } from "../constants";
 
 const useCityStorage = () => {
@@ -11,23 +10,28 @@ const useCityStorage = () => {
             return JSON.parse(storage);
         }
     };
-    const setStorage = (city) => {
-        let storage = getStorage();
 
-        if (storage?.length === 0) {
-            localStorage.setItem(CITIES_KEY, JSON.stringify([city]));
+    const setStorage = useCallback((city) => {
+        if (city === null) {
+            localStorage.removeItem(CITIES_KEY); // Clear localStorage
         } else {
-            if (!storage.includes(city)) {
-                storage.push(city);
-                localStorage.setItem(CITIES_KEY, JSON.stringify(storage));
+            let storage = getStorage();
+
+            if (storage.length === 0) {
+                localStorage.setItem(CITIES_KEY, JSON.stringify([city]));
+            } else {
+                if (!storage.includes(city)) {
+                    storage.push(city);
+                    localStorage.setItem(CITIES_KEY, JSON.stringify(storage));
+                }
             }
         }
+    }, []);
 
-        console.log(localStorage.getItem(CITIES_KEY));
-    };
     return {
         getStorage,
         setStorage,
     };
 };
+
 export default useCityStorage;
