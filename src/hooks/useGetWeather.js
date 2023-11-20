@@ -1,9 +1,10 @@
 import { useCallback, useContext } from "react";
 import { GlobalContext } from "../context/globalContext";
+import axios from "axios";
 
 const fetchCityWeather = (city) => {
     const API_KEY = "6fd254392eb10d3298ac4ce720efc54a";
-    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
     return axios.get(URL);
 };
 
@@ -18,12 +19,12 @@ const useGetWeather = () => {
             });
 
             return fetchCityWeather(city)
-                .then((result) => {
-                    const { result } = res;
+                .then((res) => {
+                    const { data } = res;
 
                     updateState({
                         weather: {
-                            data: result,
+                            data,
                             isLoading: false,
                         },
                     });
