@@ -30,5 +30,4 @@ const useCityStorage = () => {
         setStorage,
     };
 };
-
 export default useCityStorage;
