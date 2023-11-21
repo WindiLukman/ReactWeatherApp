@@ -39,7 +39,8 @@ function App() {
 
     const onClearButtonClick = () => {
         setStorage(null);
-        setRecentCities([]); // Update recentCities after clearing localStorage
+        setRecentCities([]);
+        setCityInput(""); // Clear the search bar
     };
 
     const onCityItemClick = (city) => {
